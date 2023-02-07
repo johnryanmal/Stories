@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios'
 import { v4 as uuid } from 'uuid';
 import { GraphView } from "react-digraph";
 
@@ -55,8 +56,8 @@ const edgeTypes = {
 };
 
 export function Graph(props) {
-  const [ nodes, setNodes ] = useState(props.nodes ?? [])
-  const [ edges, setEdges ] = useState(props.edges ?? [])
+  const [ nodes, setNodes ] = useState([])
+  const [ edges, setEdges ] = useState([])
   const [ selected, setSelected ] = useState({})
 
   const onCreateNode = (x, y) => {
@@ -185,19 +186,21 @@ export function Graph(props) {
     // }
   };
 
-  // const getStory = () => {
-  //   axios.get("http://localhost:3000/stories/1")
-  //   .then(res => {
-  //     let story = res.data?.story
-  //     if (story) {
-  //       setGraph(story.graph)
-  //     }
-  //   }).catch(err => {
-  //     console.error(err)
-  //   })
-  // }
+  const getStory = () => {
+    axios.get("http://localhost:3000/stories/1")
+    .then(res => {
+      let graph = res.data?.story?.graph
+      console.log('getstory', graph)
+      if (graph) {
+        setNodes(graph.nodes ?? [])
+        setEdges(graph.edges ?? [])
+      }
+    }).catch(err => {
+      console.error(err)
+    })
+  }
 
-  // useEffect(getStory, [])
+  useEffect(getStory, [])
 
   return (
     <div>
