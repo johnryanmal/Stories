@@ -84,7 +84,8 @@ export function Graph() {
         id: `${source.id}_${target.id}`,
         source: source.id,
         target: target.id,
-        type: "emptyEdge"
+        type: "emptyEdge",
+        handleText: ""
       };
       console.log("create edge", edge)
       setEdges([...edges, edge])
@@ -131,6 +132,18 @@ export function Graph() {
     }))
   }
 
+  const onUpdateEdge = (newEdge) => {
+    console.log("update edge", newEdge);
+
+    setEdges(edges.map((edge) => {
+      if (edge.id === newEdge.id) {
+        return newEdge
+      } else {
+        return edge
+      }
+    }))
+  }
+
   const onSwapEdge = () => {
     console.log("swap edge");
   }
@@ -141,6 +154,14 @@ export function Graph() {
     const nodeParams = Object.fromEntries(formData.entries())
     const newNode = {...selectedNode, ...nodeParams}
     onUpdateNode(newNode)
+  }
+
+  const onSaveEdge = (event) => {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const edgeParams = Object.fromEntries(formData.entries())
+    const newEdge = {...selectedEdge, ...edgeParams}
+    onUpdateEdge(newEdge)
   }
 
   const url = `http://localhost:3000/stories/${params.id}`
@@ -214,15 +235,21 @@ export function Graph() {
           <p>{JSON.stringify(selectedNode)} </p>
           <form onSubmit={onSaveNode}>
             <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
-            <div>Text<textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
+            <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
             <button type="submit">Save Node</button>
           </form>
         </>
-        )}
-        { selectedEdge && (
+        ) || selectedEdge && (
         <>
-          <p>Edge: {JSON.stringify(selectedEdge)} </p>
+          <h2>Edge</h2>
+          <p>{JSON.stringify(selectedEdge)} </p>
+          <form onSubmit={onSaveEdge}>
+            <div>Text: <textarea name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
+            <button type="submit">Save Edge</button>
+          </form>
         </>
+        ) || (
+          <p>Nothing selected.</p>
         )}
         <button onClick={updateStory}>Save Story</button>
       </>
