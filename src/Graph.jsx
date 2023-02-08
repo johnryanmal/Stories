@@ -68,12 +68,13 @@ export function Graph() {
   const onCreateNode = (x, y) => {
     let node = {
       id: uuid(),
-      title: "Title",
       x,
       y,
-      type: "text"
-    };
-    console.log("create", node);
+      type: "text",
+      title: "Untitled",
+      text: ""
+    }
+    console.log("create", node)
     setNodes([...nodes, node])
   };
 
@@ -128,11 +129,19 @@ export function Graph() {
         return node
       }
     }))
-  };
+  }
 
   const onSwapEdge = () => {
     console.log("swap edge");
-  };
+  }
+
+  const onSaveNode = (event) => {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const nodeParams = Object.fromEntries(formData.entries())
+    const newNode = {...selectedNode, ...nodeParams}
+    onUpdateNode(newNode)
+  }
 
   const url = `http://localhost:3000/stories/${params.id}`
 
@@ -201,14 +210,20 @@ export function Graph() {
         </div>
         { selectedNode && (
         <>
-          <p>Node: {JSON.stringify(selectedNode)} </p>
+          <h2>Node</h2>
+          <p>{JSON.stringify(selectedNode)} </p>
+          <form onSubmit={onSaveNode}>
+            <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
+            <div>Text<textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
+            <button type="submit">Save Node</button>
+          </form>
         </>
         )}
         { selectedEdge && (
         <>
           <p>Edge: {JSON.stringify(selectedEdge)} </p>
         </>
-        )} 
+        )}
         <button onClick={updateStory}>Save Story</button>
       </>
       ) || (
