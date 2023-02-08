@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'
+import { useParams } from "react-router-dom";
+import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 import { GraphView } from "react-digraph";
 
@@ -56,6 +57,7 @@ const edgeTypes = {
 };
 
 export function Graph(props) {
+  const params = useParams()
   const [ nodes, setNodes ] = useState([])
   const [ edges, setEdges ] = useState([])
   const [ selected, setSelected ] = useState({})
@@ -116,7 +118,7 @@ export function Graph(props) {
   };
 
   const getStory = () => {
-    axios.get("http://localhost:3000/stories/1")
+    axios.get(`http://localhost:3000/stories/${params.id}`)
     .then(res => {
       let graph = res.data?.story?.graph
       console.log('getstory', graph)

@@ -1,6 +1,7 @@
 import './App.css'
 
 import { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import axios from 'axios'
 
 import { Signup } from './Signup.jsx'
@@ -28,10 +29,12 @@ export default function App() {
 
   return (
     <div className="App">
+      <Routes>
+        <Route path="/story/:id" element={<Graph />} />
+      </Routes>
       <Signup />
       <Login />
       <Logout />
-      <Graph />
       <p>{JSON.stringify(stories)}</p>
     </div>
   )
