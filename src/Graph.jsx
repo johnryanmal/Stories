@@ -62,6 +62,8 @@ export function Graph() {
   const [ nodes, setNodes ] = useState([])
   const [ edges, setEdges ] = useState([])
   const [ selected, setSelected ] = useState({})
+  const [ selectedNode, setSelectedNode ] = useState(null)
+  const [ selectedEdge, setSelectedEdge ] = useState(null)
 
   const onCreateNode = (x, y) => {
     let node = {
@@ -90,7 +92,22 @@ export function Graph() {
 
   const onSelect = (selected) => {
     console.log('select', selected)
+
+    const nodeCount = selected.nodes?.size || 0
+    const edgeCount = selected.edges?.size || 0
+
+    let selectedNode = null
+    let selectedEdge = null
+
+    if (nodeCount === 1 && edgeCount === 0) {
+      selectedNode = selected.nodes.values().next().value
+    } else if (nodeCount === 0 && edgeCount === 1) {
+      selectedEdge = selected.edges.values().next().value
+    }
+
     setSelected(selected)
+    setSelectedNode(selectedNode)
+    setSelectedEdge(selectedEdge)
   }
   
   const canDeleteSelected = (selected) => true
@@ -182,7 +199,17 @@ export function Graph() {
             onSwapEdge={onSwapEdge}
           />
         </div>
-        <button onClick={updateStory}>Save</button>
+        { selectedNode && (
+        <>
+          <p>Node: {JSON.stringify(selectedNode)} </p>
+        </>
+        )}
+        { selectedEdge && (
+        <>
+          <p>Edge: {JSON.stringify(selectedEdge)} </p>
+        </>
+        )} 
+        <button onClick={updateStory}>Save Story</button>
       </>
       ) || (
       <>
