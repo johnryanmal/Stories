@@ -16,6 +16,7 @@ const nodeTypes = {
   },
   start: {
     typeText: "START",
+    title: "",
     shapeId: "#start",
     shape: (
       <symbol viewBox="0 0 50 50" id="start">
@@ -65,16 +66,28 @@ export function Graph() {
   const [ selected, setSelected ] = useState({})
   const [ selectedNode, setSelectedNode ] = useState(null)
   const [ selectedEdge, setSelectedEdge ] = useState(null)
+  const [ nodeType, setNodeType ] = useState('text')
+
+  const createNode = (x, y) => {
+    let base = { id: uuid(), x, y, type: nodeType }
+
+    switch(nodeType) {
+      case 'start':
+      case 'end':
+        return base
+
+      case 'text':
+      default:
+        return {
+          ...base,
+          title: "Untitled",
+          text: ""
+        }
+    }
+  }
 
   const onCreateNode = (x, y) => {
-    let node = {
-      id: uuid(),
-      x,
-      y,
-      type: "text",
-      title: "Untitled",
-      text: ""
-    }
+    let node = createNode(x, y)
     console.log("create", node)
     setNodes([...nodes, node])
   };
@@ -212,10 +225,27 @@ export function Graph() {
     }
   }
 
+  const onNodeType = (event) => {
+    setNodeType(event.target.value)
+  }
+
   return (
     <>
       { story && (
       <>
+        <div>
+          <p>Node type:</p>
+          {Object.keys(nodeTypes).map(type => (
+            <div>
+              <input
+                type="radio"
+                value={type}
+                checked={type === nodeType}
+                onChange={onNodeType}
+              /> {type}
+            </div>
+          ))}
+        </div>
         <div>
           <p>Shift+click creates a new node</p>
           <p>Shift+click a node and drag to another node creates an edge</p>
