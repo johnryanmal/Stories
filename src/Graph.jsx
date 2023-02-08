@@ -99,27 +99,6 @@ export function Graph(props) {
     setEdges(edges.filter(edge => !selected.edges?.has(edge.id)))
   }
 
-  // const onSelectNode = node => {
-  //   console.log('onselectnode')
-  //   const selected = state.selected;
-  //   console.log("select node", node);
-  //   console.log(state);
-  //   if (node && (!selected || selected.id !== node.id)) {
-  //     setState({
-  //       selected: node
-  //     });
-  //   } else if (!node && selected) {
-  //     setState({
-  //       selected: null
-  //     });
-  //   }
-  // };
-
-  // onSelectEdge = () => {
-  //   console.log('onselectedge')
-  //   console.log("select edge");
-  // };
-
   const onUpdateNode = (newNode) => {
     console.log("update node", newNode);
 
@@ -134,56 +113,6 @@ export function Graph(props) {
 
   const onSwapEdge = () => {
     console.log("swap edge");
-  };
-
-  const getNodeIndex = (searchNode) => {
-    console.log("getNodeIndex")
-    //return state.graph.nodes.findIndex(node => node.id === searchNode.id);
-  }
-
-  // Helper to find the index of a given edge
-  const getEdgeIndex = (searchEdge) => {
-    console.log("getEdgeIndex")
-    // return state.graph.edges.findIndex(edge => {
-    //   return (
-    //     edge.source === searchEdge.source && edge.target === searchEdge.target
-    //   );
-    // });
-  }
-
-  const updateSelectedNodeTitle = e => {
-    // const graph = state.graph;
-    // const selected = state.selected;
-
-    // const title = e.target.value;
-    // selected.title = title;
-
-    // const i = getNodeIndex(selected);
-    // graph.nodes[i].title = title;
-
-    // setState({
-    //   graph,
-    //   selected
-    // });
-  };
-
-  const updateSelectedNodeType = e => {
-    // const graph = state.graph;
-    // const selected = state.selected;
-
-    // const type = e.target.value;
-
-    // if (type in TYPES) {
-    //   selected.type = type;
-
-    //   const i = getNodeIndex(selected);
-    //   graph.nodes[i].type = type;
-
-    //   setState({
-    //     graph,
-    //     selected
-    //   });
-    // }
   };
 
   const getStory = () => {
@@ -230,16 +159,6 @@ export function Graph(props) {
           onSwapEdge={onSwapEdge}
         />
       </div>
-      {selected && (
-        <div>
-          <h4>Update a node</h4>
-          <input
-            type="text"
-            value={selected.title}
-            onChange={updateSelectedNodeTitle}
-          />
-        </div>
-      )}
     </div>
   );
 }
