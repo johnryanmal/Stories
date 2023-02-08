@@ -13,6 +13,38 @@ const nodeTypes = {
         <circle cx="50" cy="50" r="45" />
       </symbol>
     )
+  },
+  start: {
+    typeText: "START",
+    shapeId: "#start",
+    shape: (
+      <symbol viewBox="0 0 50 50" id="start">
+        <rect
+          transform="rotate(45)"
+          x="27.5"
+          y="-7.5"
+          width="15"
+          height="15"
+          fill="currentColor"
+        />
+      </symbol>
+    )
+  },
+  end: {
+    typeText: "END",
+    shapeId: "#end",
+    shape: (
+      <symbol viewBox="0 0 50 50" id="end">
+        <rect
+          transform="rotate(45)"
+          x="27.5"
+          y="-7.5"
+          width="15"
+          height="15"
+          fill="currentColor"
+        />
+      </symbol>
+    )
   }
 };
 
