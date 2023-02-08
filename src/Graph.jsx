@@ -6,31 +6,10 @@ import { GraphView } from "react-digraph";
 
 const nodeTypes = {
   text: {
-    // required to show empty nodes
     typeText: "Text",
-    shapeId: "#text", // relates to the type property of a node
+    shapeId: "#text",
     shape: (
       <symbol viewBox="0 0 100 100" id="text" key="0">
-        <circle cx="50" cy="50" r="45" />
-      </symbol>
-    )
-  },
-  button: {
-    // required to show empty nodes
-    typeText: "Button",
-    shapeId: "#button", // relates to the type property of a node
-    shape: (
-      <symbol viewBox="0 0 100 100" id="button" key="0">
-        <circle cx="50" cy="50" r="45" />
-      </symbol>
-    )
-  },
-  chat: {
-    // required to show empty nodes
-    typeText: "Chat",
-    shapeId: "#chat", // relates to the type property of a node
-    shape: (
-      <symbol viewBox="0 0 100 100" id="chat" key="0">
         <circle cx="50" cy="50" r="45" />
       </symbol>
     )
@@ -41,18 +20,8 @@ const nodeSubtypes = {};
 
 const edgeTypes = {
   emptyEdge: {
-    // required to show empty edges
-    shapeId: "#emptyEdge",
-    // edge type could be "wait" or "delay" and
-    // the target node's wait time could be displayed in the edge (in the arrow)
-    shape: <span id="emptyEdge" />
-    /*shape: (
-      <symbol viewBox="0 0 50 50" id="emptyEdge" key="0">
-        <circle cx="25" cy="25" r="8" fill="currentColor">
-          {" "}
-        </circle>
-      </symbol>
-    )*/
+    shapeId: "#option",
+    shape: <span />
   }
 };
 
@@ -84,7 +53,7 @@ export function Graph() {
         id: `${source.id}_${target.id}`,
         source: source.id,
         target: target.id,
-        type: "emptyEdge",
+        type: "option",
         handleText: ""
       };
       console.log("create edge", edge)
@@ -244,7 +213,7 @@ export function Graph() {
         { selectedNode && (
         <>
           <h2>Node</h2>
-          <p>{JSON.stringify(selectedNode)} </p>
+          {/* <p>{JSON.stringify(selectedNode)} </p> */}
           <form onSubmit={onSaveNode}>
             <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
             <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
@@ -254,15 +223,16 @@ export function Graph() {
         ) || selectedEdge && (
         <>
           <h2>Edge</h2>
-          <p>{JSON.stringify(selectedEdge)} </p>
+          {/* <p>{JSON.stringify(selectedEdge)} </p> */}
           <form onSubmit={onSaveEdge}>
-            <div>Text: <textarea name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
+            <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
             <button type="submit">Save Edge</button>
           </form>
         </>
         ) || (
           <p>Nothing selected.</p>
         )}
+        <hr />
         <button onClick={updateStory}>Save Story</button>
         <button onClick={deleteStory}>Delete Story</button>
       </>
