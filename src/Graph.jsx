@@ -199,6 +199,18 @@ export function Graph() {
     })
   }
 
+  const deleteStory = () => {
+    if (confirm(`Are you sure you want to delete "${story.title}"?`)) {
+      axios.delete(url)
+      .then(res => {
+        window.location.href = '/'
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    }
+  }
+
   return (
     <>
       { story && (
@@ -252,6 +264,7 @@ export function Graph() {
           <p>Nothing selected.</p>
         )}
         <button onClick={updateStory}>Save Story</button>
+        <button onClick={deleteStory}>Delete Story</button>
       </>
       ) || (
       <>
