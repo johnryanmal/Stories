@@ -56,7 +56,7 @@ const edgeTypes = {
   }
 };
 
-export function Graph(props) {
+export function Graph() {
   const params = useParams()
   const [ nodes, setNodes ] = useState([])
   const [ edges, setEdges ] = useState([])
@@ -83,7 +83,6 @@ export function Graph(props) {
         type: "emptyEdge"
       };
       console.log("create edge", edge)
-
       setEdges([...edges, edge])
     }
   };
@@ -117,21 +116,39 @@ export function Graph(props) {
     console.log("swap edge");
   };
 
+  const url = `http://localhost:3000/stories/${params.id}`
+
   const getStory = () => {
-    axios.get(`http://localhost:3000/stories/${params.id}`)
+    axios.get(url)
     .then(res => {
       let graph = res.data?.story?.graph
-      console.log('getstory', graph)
+      console.log('getStory', graph)
       if (graph) {
         setNodes(graph.nodes ?? [])
         setEdges(graph.edges ?? [])
       }
-    }).catch(err => {
+    })
+    .catch(err => {
       console.error(err)
     })
   }
 
   useEffect(getStory, [])
+
+  const updateStory = () => {
+    const graph = { nodes, edges }
+    const updateParams = {
+      graph
+    }
+    console.log('updateParams', updateParams)
+    axios.patch(url, updateParams)
+    .then(res => {
+      console.log('updateStory', res)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
 
   return (
     <div>
@@ -161,6 +178,7 @@ export function Graph(props) {
           onSwapEdge={onSwapEdge}
         />
       </div>
+      <button onClick={updateStory}>Save</button>
     </div>
   );
 }
