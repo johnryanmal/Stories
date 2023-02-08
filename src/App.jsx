@@ -7,6 +7,7 @@ import { Login } from './Login.jsx'
 import { Logout } from './Logout.jsx'
 import { Stories } from './Stories.jsx'
 import { Graph } from './Graph.jsx'
+import { NewStory } from './NewStory.jsx'
 
 export default function App() {
   const login = localStorage.getItem("jwt") !== null
@@ -17,8 +18,12 @@ export default function App() {
         <Logout />
       )}
       <Routes>
-        { !login && (
+        { login && (
+          <Route path="/story/new" element={<NewStory />} />
+        ) || (
         <>
+          <Route path="/story/new" element={<Login />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </>
