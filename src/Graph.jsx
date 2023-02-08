@@ -58,6 +58,7 @@ const edgeTypes = {
 
 export function Graph() {
   const params = useParams()
+  const [ story, setStory ] = useState(null)
   const [ nodes, setNodes ] = useState([])
   const [ edges, setEdges ] = useState([])
   const [ selected, setSelected ] = useState({})
@@ -121,11 +122,12 @@ export function Graph() {
   const getStory = () => {
     axios.get(url)
     .then(res => {
-      let graph = res.data?.story?.graph
-      console.log('getStory', graph)
-      if (graph) {
-        setNodes(graph.nodes ?? [])
-        setEdges(graph.edges ?? [])
+      let story = res.data?.story
+      console.log('getStory', story)
+      if (story) {
+        setStory(story)
+        setNodes(story.graph?.nodes ?? [])
+        setEdges(story.graph?.edges ?? [])
       }
     })
     .catch(err => {
@@ -151,34 +153,42 @@ export function Graph() {
   }
 
   return (
-    <div>
-      <div>
-        <p>Shift+click creates a new node</p>
-        <p>Shift+click a node and drag to another node creates an edge</p>
-        <p>Click a node and pressing delete deletes the node and its edges</p>
-        <p>Node text and type can be changed after selecting a node by clicking it</p>
-      </div>
-      <div id="graph">
-        <GraphView
-          nodeKey="id"
-          edgeKey="id"
-          nodes={nodes}
-          edges={edges}
-          selected={selected}
-          nodeTypes={nodeTypes}
-          nodeSubtypes={nodeSubtypes}
-          edgeTypes={edgeTypes}
+    <>
+      { story && (
+      <>
+        <div>
+          <p>Shift+click creates a new node</p>
+          <p>Shift+click a node and drag to another node creates an edge</p>
+          <p>Click a node and pressing delete deletes the node and its edges</p>
+          <p>Node text and type can be changed after selecting a node by clicking it</p>
+        </div>
+        <div id="graph">
+          <GraphView
+            nodeKey="id"
+            edgeKey="id"
+            nodes={nodes}
+            edges={edges}
+            selected={selected}
+            nodeTypes={nodeTypes}
+            nodeSubtypes={nodeSubtypes}
+            edgeTypes={edgeTypes}
 
-          onCreateNode={onCreateNode}
-          onCreateEdge={onCreateEdge}
-          onSelect={onSelect}
-          canDeleteSelected={canDeleteSelected}
-          onDeleteSelected={onDeleteSelected}
-          onUpdateNode={onUpdateNode}
-          onSwapEdge={onSwapEdge}
-        />
-      </div>
-      <button onClick={updateStory}>Save</button>
-    </div>
+            onCreateNode={onCreateNode}
+            onCreateEdge={onCreateEdge}
+            onSelect={onSelect}
+            canDeleteSelected={canDeleteSelected}
+            onDeleteSelected={onDeleteSelected}
+            onUpdateNode={onUpdateNode}
+            onSwapEdge={onSwapEdge}
+          />
+        </div>
+        <button onClick={updateStory}>Save</button>
+      </>
+      ) || (
+      <>
+        <p>Story not found.</p>
+      </>
+      )}
+    </>
   );
 }
