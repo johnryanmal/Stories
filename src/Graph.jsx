@@ -203,7 +203,7 @@ export function Graph() {
     if (confirm(`Are you sure you want to delete "${story.title}"?`)) {
       axios.delete(url)
       .then(res => {
-        window.location.href = '/'
+        window.location.href = '/stories/user'
       })
       .catch(err => {
         console.error(err)
