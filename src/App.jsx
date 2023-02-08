@@ -27,14 +27,23 @@ export default function App() {
 
   useEffect(getStories, [])
 
+  const login = localStorage.getItem("jwt") !== null
+
   return (
     <div className="App">
+      { login && (
+        <Logout />
+      )}
       <Routes>
+        { !login && (
+        <>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </>
+        )}
+        <Route path="/story/:id" element={<Graph />} />
         <Route path="/story/:id" element={<Graph />} />
       </Routes>
-      <Signup />
-      <Login />
-      <Logout />
       <p>{JSON.stringify(stories)}</p>
     </div>
   )
