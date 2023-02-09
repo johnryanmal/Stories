@@ -62,7 +62,7 @@ const edgeTypes = {
   }
 };
 
-export function Graph() {
+export function Editor() {
   const params = useParams()
   const [ story, setStory ] = useState(null)
   const [ nodes, setNodes ] = useState([])

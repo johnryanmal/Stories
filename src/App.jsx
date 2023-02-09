@@ -7,7 +7,7 @@ import { Login } from './Login.jsx'
 import { Logout } from './Logout.jsx'
 import { Stories } from './Stories.jsx'
 import { UserStories } from './UserStories.jsx'
-import { Graph } from './Graph.jsx'
+import { Editor } from './Editor.jsx'
 import { NewStory } from './NewStory.jsx'
 
 export default function App() {
@@ -35,7 +35,7 @@ export default function App() {
         )}
         <Route path="/" element={<Stories />} />
         <Route path="/stories" element={<Stories />} />
-        <Route path="/story/:id" element={<Graph />} />
+        <Route path="/story/:id" element={<Editor />} />
       </Routes>
     </div>
   )
