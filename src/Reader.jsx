@@ -5,6 +5,10 @@ import axios from 'axios'
 export function Reader() {
 	const params = useParams()
   const [ story, setStory ] = useState(null)
+	const [ currentNode, setCurrentNode ] = useState(null)
+
+	const nodeMap = {} // node.id -> node
+	const edgeMap = {} // node.id -> [edge]
 
   const getStory = () => {
     axios.get(`http://localhost:3000/stories/${params.id}`)
@@ -13,6 +17,24 @@ export function Reader() {
       console.log('getStory', story)
       if (story) {
         setStory(story)
+
+				const nodes = story.graph?.nodes ?? []
+				const edges = story.graph?.edges ?? []
+
+				for (const node of nodes) {
+					nodeMap[node.id] = node
+				}
+				
+				for (const edge of edges) {
+					if (edgeMap[edge.source]) {
+						edgeMap[edge.source].push(edge.target)
+					} else {
+						edgeMap[edge.source] = [edge.target]
+					}
+				}
+
+				let startNode = nodes.find((node) => node.type === 'start')
+				setCurrentNode(startNode)
       }
     })
     .catch(err => {
@@ -25,7 +47,17 @@ export function Reader() {
 	return (
 		<div>
 			<h1>Reader</h1>
-			<p>{JSON.stringify(story)}</p>
+			{ story && currentNode && (
+			<>
+				<h2>{story.title}</h2>
+				{/* <p>{JSON.stringify(story)}</p> */}
+				<p>{currentNode.title} ({currentNode.type})</p>
+				<p>{JSON.stringify(currentNode)}</p>
+			</>
+			) || (
+				<p>[Unable to continue story.]</p>
+			)}
+			
 		</div>
 	)
 }
