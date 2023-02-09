@@ -299,8 +299,8 @@ export function Editor() {
       <>
         <div>
           <p>Node type:</p>
-          {Object.keys(nodeTypes).map(type => (
-            <div>
+          {Object.keys(nodeTypes).map((type, index) => (
+            <div key={index}>
               <input
                 type="radio"
                 value={type}
