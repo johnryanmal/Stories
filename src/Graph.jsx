@@ -52,7 +52,11 @@ const nodeTypes = {
 const nodeSubtypes = {};
 
 const edgeTypes = {
-  emptyEdge: {
+  option: {
+    shapeId: "#option",
+    shape: <span />
+  },
+  route: {
     shapeId: "#option",
     shape: <span />
   }
@@ -68,10 +72,10 @@ export function Graph() {
   const [ selectedEdge, setSelectedEdge ] = useState(null)
   const [ nodeType, setNodeType ] = useState('text')
 
-  const createNode = (x, y) => {
-    let base = { id: uuid(), x, y, type: nodeType }
+  const createNode = (type, x, y) => {
+    let base = { id: uuid(), type, x, y }
 
-    switch(nodeType) {
+    switch(type) {
       case 'start':
       case 'end':
         return base
@@ -80,27 +84,62 @@ export function Graph() {
       default:
         return {
           ...base,
-          title: "Untitled",
-          text: ""
+          title: 'Untitled',
+          text: ''
         }
     }
   }
 
+  const matchEdgeType = (source, target) => {
+    switch(source.type) {
+      case 'text':
+        return 'option'
+      case 'start':
+      case 'end':
+      default:
+        return 'route'
+    }
+  }
+
+  const createEdge = (type, source, target) => {
+    let base = {
+      id: `${source.id}_${target.id}`,
+      source: source.id,
+      target: target.id,
+      type
+    }
+
+    switch(type) {
+      case 'option':
+        return {
+          ...base,
+          handleText: ''
+        }
+      case 'route':
+      default:
+        return base
+    }
+  }
+
+  const canCreateEdge = (type, source, target) => {
+    switch(type) {
+      case 'option':
+      default:
+        return source.id !== target.id
+    }
+  }
+
   const onCreateNode = (x, y) => {
-    let node = createNode(x, y)
-    console.log("create", node)
+    let node = createNode(nodeType, x, y)
+    console.log("create node", node)
     setNodes([...nodes, node])
   };
 
   const onCreateEdge = (source, target) => {
-    if (source.id !== target.id) {
-      const edge = {
-        id: `${source.id}_${target.id}`,
-        source: source.id,
-        target: target.id,
-        type: "option",
-        handleText: ""
-      };
+    let type = matchEdgeType(source, target)
+
+    if (canCreateEdge(type, source, target)) {
+      let edge = createEdge(type, source, target)
       console.log("create edge", edge)
       setEdges([...edges, edge])
     }
@@ -130,8 +169,20 @@ export function Graph() {
 
   const onDeleteSelected = (selected) => {
     console.log('delete', selected)
-    setNodes(nodes.filter(node => !selected.nodes?.has(node.id)))
-    setEdges(edges.filter(edge => !selected.edges?.has(edge.id)))
+    onDeleteNodes(selected.nodes)
+    onDeleteEdges(selected.edges)
+  }
+
+  const onDeleteNodes = (lookup) => {
+    if (lookup) {
+      setNodes(nodes.filter(node => !lookup.has(node.id)))
+    }
+  }
+
+  const onDeleteEdges = (lookup) => {
+    if (lookup) {
+      setEdges(edges.filter(edge => !lookup.has(edge.id)))
+    }
   }
 
   const onUpdateNode = (newNode) => {
@@ -274,7 +325,7 @@ export function Graph() {
         </div>
         { selectedNode && (
         <>
-          <h2>Node</h2>
+          <h2>Node ({selectedNode.type})</h2>
           {/* <p>{JSON.stringify(selectedNode)} </p> */}
           <form onSubmit={onSaveNode}>
             <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
@@ -284,7 +335,7 @@ export function Graph() {
         </>
         ) || selectedEdge && (
         <>
-          <h2>Edge</h2>
+          <h2>Edge ({selectedEdge.type})</h2>
           {/* <p>{JSON.stringify(selectedEdge)} </p> */}
           <form onSubmit={onSaveEdge}>
             <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
