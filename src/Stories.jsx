@@ -27,7 +27,7 @@ export function Stories() {
       {stories.map((story, index) => (
         <div key={index}>
           <h2>{story.title}</h2>
-          <Link to={`/story/${story.id}`}>
+          <Link to={`/story/${story.id}/read`}>
             <button>Read</button>
           </Link>
         </div>
