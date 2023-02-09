@@ -10,6 +10,33 @@ export function Reader() {
 	const nodeMap = {} // node.id -> node
 	const edgeMap = {} // node.id -> [edge]
 
+	const route = (node) => {
+		let edges = edgeMap[node] ?? []
+
+		switch(node.type) {
+			case 'start':
+				return edges[0]
+		}
+	}
+
+	const walk = (node) => {
+		let prev
+		let curr = node
+		while (curr) {
+			prev = curr
+			curr = nodeMap[route(curr)]
+		}
+
+		return prev
+	}
+
+	const traverse = (node, edgeIndex) => {
+		let edge = edgeMap[node][edgeIndex]
+		let nextNode = nodeMap[edge]
+
+		return walk(nextNode)
+	}
+
   const getStory = () => {
     axios.get(`http://localhost:3000/stories/${params.id}`)
     .then(res => {
@@ -34,7 +61,7 @@ export function Reader() {
 				}
 
 				let startNode = nodes.find((node) => node.type === 'start')
-				setCurrentNode(startNode)
+				setCurrentNode(walk(startNode))
       }
     })
     .catch(err => {
