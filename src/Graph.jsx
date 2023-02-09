@@ -120,6 +120,21 @@ export function Graph() {
     }
   }
 
+  const updateEdges = (source, target, newEdge) => {
+    let newEdges = edges
+
+    if (source.type === 'start') {
+      // replace edges with same start node
+      newEdges = newEdges.filter((edge) => edge.source !== newEdge.source)
+    }
+    if (target.type === 'end') {
+      // replace edges with same end node
+      newEdges = newEdges.filter((edge) => edge.target !== newEdge.target)
+    }
+
+    setEdges([...newEdges, newEdge]) // update and push new edge
+  }
+
   const canCreateEdge = (type, source, target) => {
     if (source.id === target.id) return false // nodes cannot be connected to themselves
     if (target.type === 'start') return false // nodes cannot be directed towards a start node
@@ -139,7 +154,7 @@ export function Graph() {
     if (canCreateEdge(type, source, target)) {
       let edge = createEdge(type, source, target)
       console.log("create edge", edge)
-      setEdges([...edges, edge])
+      updateEdges(source, target, edge)
     }
   };
 
