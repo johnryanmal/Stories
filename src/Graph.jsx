@@ -103,7 +103,6 @@ export function Graph() {
 
   const createEdge = (type, source, target) => {
     let base = {
-      id: `${source.id}_${target.id}`,
       source: source.id,
       target: target.id,
       type
@@ -180,7 +179,7 @@ export function Graph() {
 
   const onDeleteEdges = (lookup) => {
     if (lookup) {
-      setEdges(edges.filter(edge => !lookup.has(edge.id)))
+      setEdges(edges.filter(edge => !lookup.has(`${edge.source}_${edge.target}`)))
     }
   }
 
