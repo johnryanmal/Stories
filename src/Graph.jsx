@@ -122,11 +122,10 @@ export function Graph() {
   }
 
   const canCreateEdge = (type, source, target) => {
-    switch(type) {
-      case 'option':
-      default:
-        return source.id !== target.id
-    }
+    if (source.id === target.id) return false // nodes cannot be connected to themselves
+    if (target.type === 'start') return false // nodes cannot be directed towards a start node
+    if (source.type === 'end') return false // nodes cannot come from an end node
+    return true
   }
 
   const onCreateNode = (x, y) => {
