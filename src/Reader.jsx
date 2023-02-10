@@ -76,7 +76,8 @@ export function Reader() {
 	return (
 		<div>
 			<h1>Reader</h1>
-			{ story && currentNode && (
+			<p>node: {currentNode?.type}</p>
+			{ story && currentNode?.type === 'text' && (
 			<>
 				<h2>{story.title}</h2>
 				{/* <p>{JSON.stringify(story)}</p> */}
