@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 import axios from 'axios'
 
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+
 export function Reader() {
 	const params = useParams()
   const [ story, setStory ] = useState(null)
@@ -94,7 +97,7 @@ export function Reader() {
 			{ story && currentNode?.type === 'text' && (
 			<>
 				<h2>{currentNode.title}</h2>
-				<p>{currentNode.text}</p>
+				<ReactMarkdown children={currentNode.text} remarkPlugins={[remarkGfm]} />
 				{ currentEdges
 				.filter((edge) => edge.type === 'option')
 				.map((option, index) => (
