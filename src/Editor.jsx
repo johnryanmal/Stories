@@ -340,20 +340,24 @@ export function Editor() {
         <>
           <h2>Node ({selectedNode.type})</h2>
           {/* <p>{JSON.stringify(selectedNode)} </p> */}
-          <form onSubmit={onSaveNode}>
-            <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
-            <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
-            <button type="submit">Save Node</button>
-          </form>
+          { selectedNode?.type === 'text' && (
+            <form onSubmit={onSaveNode}>
+              <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
+              <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
+              <button type="submit">Save Node</button>
+            </form>
+          )}
         </>
         ) || selectedEdge && (
         <>
           <h2>Edge ({selectedEdge.type})</h2>
           {/* <p>{JSON.stringify(selectedEdge)} </p> */}
-          <form onSubmit={onSaveEdge}>
-            <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
-            <button type="submit">Save Edge</button>
-          </form>
+          { selectedEdge?.type === 'option' && (
+            <form onSubmit={onSaveEdge}>
+              <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
+              <button type="submit">Save Edge</button>
+            </form>
+          )}
         </>
         ) || (
           <p>Nothing selected.</p>
