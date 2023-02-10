@@ -7,11 +7,11 @@ export function Reader() {
   const [ story, setStory ] = useState(null)
 	const [ currentNode, setCurrentNode ] = useState(null)
 
-	const nodeMap = {} // node.id -> node
-	const edgeMap = {} // node.id -> [edge]
+	let nodeMap = {} // node.id -> node
+	let edgeMap = {} // node.id -> [edge]
 
 	const route = (node) => {
-		let edges = edgeMap[node] ?? []
+		let edges = edgeMap[node.id] ?? []
 
 		switch(node.type) {
 			case 'start':
@@ -48,10 +48,12 @@ export function Reader() {
 				const nodes = story.graph?.nodes ?? []
 				const edges = story.graph?.edges ?? []
 
+				nodeMap = {}
 				for (const node of nodes) {
 					nodeMap[node.id] = node
 				}
 				
+				edgeMap = {}
 				for (const edge of edges) {
 					if (edgeMap[edge.source]) {
 						edgeMap[edge.source].push(edge.target)
