@@ -6,6 +6,7 @@ export function Reader() {
 	const params = useParams()
   const [ story, setStory ] = useState(null)
 	const [ currentNode, setCurrentNode ] = useState(null)
+	const [ currentEdges, setCurrentEdges ] = useState([])
 
 	let nodeMap = {} // node.id -> node
 	let edgeMap = {} // node.id -> [edge]
@@ -15,7 +16,7 @@ export function Reader() {
 
 		switch(node.type) {
 			case 'start':
-				return edges[0]
+				return edges[0]?.target
 		}
 	}
 
@@ -26,15 +27,25 @@ export function Reader() {
 			prev = curr
 			curr = nodeMap[route(curr)]
 		}
-
 		return prev
 	}
 
 	const traverse = (node, edgeIndex) => {
 		let edge = edgeMap[node][edgeIndex]
-		let nextNode = nodeMap[edge]
+		let nextNode = nodeMap[edge.id]
 
 		return walk(nextNode)
+	}
+
+	const onNode = (node) => {
+		let edges = edgeMap[node.id] ?? []
+
+		setCurrentNode(node)
+		setCurrentEdges(edges)
+	}
+	
+	const onOption = (option) => {
+		console.log('option', option)
 	}
 
   const getStory = () => {
@@ -56,14 +67,15 @@ export function Reader() {
 				edgeMap = {}
 				for (const edge of edges) {
 					if (edgeMap[edge.source]) {
-						edgeMap[edge.source].push(edge.target)
+						edgeMap[edge.source].push(edge)
 					} else {
-						edgeMap[edge.source] = [edge.target]
+						edgeMap[edge.source] = [edge]
 					}
 				}
 
 				let startNode = nodes.find((node) => node.type === 'start')
-				setCurrentNode(walk(startNode))
+				let firstNode = walk(startNode)
+				onNode(firstNode)
       }
     })
     .catch(err => {
@@ -76,13 +88,22 @@ export function Reader() {
 	return (
 		<div>
 			<h1>Reader</h1>
+			<p>story: {story?.title}</p>
 			<p>node: {currentNode?.type}</p>
 			{ story && currentNode?.type === 'text' && (
 			<>
-				<h2>{story.title}</h2>
+				<h2>{currentNode.title}</h2>
+				<p>{currentNode.text}</p>
 				{/* <p>{JSON.stringify(story)}</p> */}
-				<p>{currentNode.title} ({currentNode.type})</p>
 				<p>{JSON.stringify(currentNode)}</p>
+				<p>{JSON.stringify(currentEdges)}</p>
+				{ currentEdges
+				.filter((edge) => edge.type === 'option')
+				.map((option, index) => (
+					<div key={index}>
+						<button onClick={() => onOption(option)}>{option.handleText}</button>
+					</div>
+				))}
 			</>
 			) || (
 				<p>[Unable to continue story.]</p>
