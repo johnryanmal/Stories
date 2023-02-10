@@ -5,11 +5,10 @@ import axios from 'axios'
 export function Reader() {
 	const params = useParams()
   const [ story, setStory ] = useState(null)
+	const [ nodeMap, setNodeMap ] = useState({}) // node.id -> node
+	const [ edgeMap, setEdgeMap ] = useState({}) // node.id -> [edge]
 	const [ currentNode, setCurrentNode ] = useState(null)
 	const [ currentEdges, setCurrentEdges ] = useState([])
-
-	let nodeMap = {} // node.id -> node
-	let edgeMap = {} // node.id -> [edge]
 
 	const route = (node) => {
 		let edges = edgeMap[node.id] ?? []
@@ -30,22 +29,18 @@ export function Reader() {
 		return prev
 	}
 
-	const traverse = (node, edgeIndex) => {
-		let edge = edgeMap[node][edgeIndex]
-		let nextNode = nodeMap[edge.id]
-
-		return walk(nextNode)
-	}
-
 	const onNode = (node) => {
-		let edges = edgeMap[node.id] ?? []
-
-		setCurrentNode(node)
-		setCurrentEdges(edges)
+		if (node) {
+			let edges = edgeMap[node.id] ?? []
+			setCurrentNode(node)
+			setCurrentEdges(edges)
+		}
 	}
 	
 	const onOption = (option) => {
 		console.log('option', option)
+		let nextNode = nodeMap[option.target]
+		onNode(walk(nextNode))
 	}
 
   const getStory = () => {
@@ -59,23 +54,21 @@ export function Reader() {
 				const nodes = story.graph?.nodes ?? []
 				const edges = story.graph?.edges ?? []
 
-				nodeMap = {}
+				let _nodeMap = {}
 				for (const node of nodes) {
-					nodeMap[node.id] = node
+					_nodeMap[node.id] = node
 				}
+				setNodeMap(_nodeMap)
 				
-				edgeMap = {}
+				let _edgeMap = {}
 				for (const edge of edges) {
-					if (edgeMap[edge.source]) {
-						edgeMap[edge.source].push(edge)
+					if (_edgeMap[edge.source]) {
+						_edgeMap[edge.source].push(edge)
 					} else {
-						edgeMap[edge.source] = [edge]
+						_edgeMap[edge.source] = [edge]
 					}
 				}
-
-				let startNode = nodes.find((node) => node.type === 'start')
-				let firstNode = walk(startNode)
-				onNode(firstNode)
+				setEdgeMap(_edgeMap)
       }
     })
     .catch(err => {
@@ -85,18 +78,23 @@ export function Reader() {
 
   useEffect(getStory, [])
 
+	const getCurrentNode = () => {
+		console.log('getCurrentNode', nodeMap)
+		let startNode = Object.values(nodeMap).find((node) => node.type === 'start') 
+		onNode(walk(startNode))
+	}
+
+	useEffect(getCurrentNode, [nodeMap, edgeMap])
+
 	return (
 		<div>
 			<h1>Reader</h1>
-			<p>story: {story?.title}</p>
-			<p>node: {currentNode?.type}</p>
+			{/* <p>story: {story?.title}</p>
+			<p>node: {currentNode?.type}</p> */}
 			{ story && currentNode?.type === 'text' && (
 			<>
 				<h2>{currentNode.title}</h2>
 				<p>{currentNode.text}</p>
-				{/* <p>{JSON.stringify(story)}</p> */}
-				<p>{JSON.stringify(currentNode)}</p>
-				<p>{JSON.stringify(currentEdges)}</p>
 				{ currentEdges
 				.filter((edge) => edge.type === 'option')
 				.map((option, index) => (
