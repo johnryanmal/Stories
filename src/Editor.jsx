@@ -90,6 +90,13 @@ export function Editor() {
     }
   }
 
+  const updateNodes = (newNode) => {
+    //remove duplicate ids
+    let newNodes = edges.filter(node => node.id !== newNode.id)
+
+    return [...newNodes, newNode]
+  }
+
   const matchEdgeType = (source, target) => {
     switch(source.type) {
       case 'text':
@@ -103,6 +110,7 @@ export function Editor() {
 
   const createEdge = (type, source, target) => {
     let base = {
+      id: uuid(),
       source: source.id,
       target: target.id,
       type
@@ -120,14 +128,15 @@ export function Editor() {
     }
   }
 
-  const updateEdges = (source, target, newEdge) => {
-    let newEdges = edges
+  const updateEdges = (newEdge, info={}) => {
+    //remove duplicate ids
+    let newEdges = edges.filter(edge => edge.id !== newEdge.id)
 
-    if (source.type === 'start') {
+    if (info.source?.type === 'start') {
       // replace edges with same start node
       newEdges = newEdges.filter((edge) => edge.source !== newEdge.source)
     }
-    if (target.type === 'end') {
+    if (info.target?.type === 'end') {
       // replace edges with same end node
       newEdges = newEdges.filter((edge) => edge.target !== newEdge.target)
     }
@@ -154,7 +163,7 @@ export function Editor() {
     if (canCreateEdge(type, source, target)) {
       let edge = createEdge(type, source, target)
       console.log("create edge", edge)
-      updateEdges(source, target, edge)
+      updateEdges(edge, {source, target})
     }
   };
 
@@ -182,44 +191,32 @@ export function Editor() {
 
   const onDeleteSelected = (selected) => {
     console.log('delete', selected)
-    onDeleteNodes(selected.nodes)
-    onDeleteEdges(selected.edges)
+    let nodeSet = new Set(selected.nodes?.values())
+    let edgeSet = new Set(selected.edges?.values())
+    onDeleteNodes(nodeSet)
+    onDeleteEdges(edgeSet)
   }
 
   const onDeleteNodes = (lookup) => {
     if (lookup) {
-      setNodes(nodes.filter(node => !lookup.has(node.id)))
+      setNodes(nodes.filter(node => !lookup.has(node)))
     }
   }
 
   const onDeleteEdges = (lookup) => {
     if (lookup) {
-      setEdges(edges.filter(edge => !lookup.has(`${edge.source}_${edge.target}`)))
+      setEdges(edges.filter(edge => !lookup.has(edge)))
     }
   }
 
   const onUpdateNode = (newNode) => {
     console.log("update node", newNode);
-
-    setNodes(nodes.map((node) => {
-      if (node.id === newNode.id) {
-        return newNode
-      } else {
-        return node
-      }
-    }))
+    updateNodes(newNode)
   }
 
   const onUpdateEdge = (newEdge) => {
     console.log("update edge", newEdge);
-
-    setEdges(edges.map((edge) => {
-      if (edge.id === newEdge.id) {
-        return newEdge
-      } else {
-        return edge
-      }
-    }))
+    updateEdges(newEdge)
   }
 
   const onSwapEdge = () => {
