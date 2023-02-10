@@ -92,9 +92,9 @@ export function Editor() {
 
   const updateNodes = (newNode) => {
     //remove duplicate ids
-    let newNodes = edges.filter(node => node.id !== newNode.id)
+    let newNodes = nodes.filter(node => node.id !== newNode.id)
 
-    return [...newNodes, newNode]
+    setNodes([...newNodes, newNode])
   }
 
   const matchEdgeType = (source, target) => {
