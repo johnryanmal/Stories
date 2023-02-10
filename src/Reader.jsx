@@ -18,6 +18,7 @@ export function Reader() {
 
 		switch(node.type) {
 			case 'start':
+			case 'router':
 				return edges[0]?.target
 		}
 	}

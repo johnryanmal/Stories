@@ -46,6 +46,22 @@ const nodeTypes = {
         />
       </symbol>
     )
+  },
+  router: {
+    typeText: "ROUTER",
+    shapeId: "#router",
+    shape: (
+      <symbol viewBox="0 0 50 50" id="router">
+        <rect
+          transform="rotate(45)"
+          x="27.5"
+          y="-7.5"
+          width="15"
+          height="15"
+          fill="currentColor"
+        />
+      </symbol>
+    )
   }
 };
 
@@ -103,6 +119,7 @@ export function Editor() {
         return 'option'
       case 'start':
       case 'end':
+      case 'router':
       default:
         return 'route'
     }
@@ -132,11 +149,11 @@ export function Editor() {
     //remove duplicate ids
     let newEdges = edges.filter(edge => edge.id !== newEdge.id)
 
-    if (info.source?.type === 'start') {
+    if (['start', 'router'].includes(info.source?.type)) {
       // replace edges with same start node
       newEdges = newEdges.filter((edge) => edge.source !== newEdge.source)
     }
-    if (info.target?.type === 'end') {
+    if (['end', 'router'].includes(info.target?.type)) {
       // replace edges with same end node
       newEdges = newEdges.filter((edge) => edge.target !== newEdge.target)
     }
