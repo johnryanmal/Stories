@@ -236,8 +236,14 @@ export function Editor() {
     updateEdges(newEdge)
   }
 
-  const onSwapEdge = () => {
-    console.log("swap edge");
+  const canSwapEdge = (source, target, edge) => {
+    return canCreateEdge(edge.type, source, target)
+  }
+
+  const onSwapEdge = (source, target, edge) => {
+    let newEdge = {...edge, target: target.id}
+    console.log("swap edge", newEdge);
+    updateEdges(newEdge, {source, target})
   }
 
   const onSaveNode = (event) => {
@@ -347,6 +353,7 @@ export function Editor() {
             canDeleteSelected={canDeleteSelected}
             onDeleteSelected={onDeleteSelected}
             onUpdateNode={onUpdateNode}
+            canSwapEdge={canSwapEdge}
             onSwapEdge={onSwapEdge}
           />
         </div>
