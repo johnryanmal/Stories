@@ -1,7 +1,9 @@
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Routes, Route } from 'react-router-dom'
 
+import { Header } from './Header'
 import { Signup } from './Signup.jsx'
 import { Login } from './Login.jsx'
 import { Logout } from './Logout.jsx'
@@ -17,6 +19,7 @@ export default function App() {
 
   return (
     <div className="App">
+      <Header />
       { login && (
         <Logout />
       )}
