@@ -31,7 +31,7 @@ export default function App() {
           <Route path="/stories/user" element={<Login />} />
           <Route path="/story/new" element={<Login />} />
 
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login redirect="/" />} />
           <Route path="/signup" element={<Signup />} />
         </>
         )}
