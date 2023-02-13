@@ -309,7 +309,7 @@ export function Editor() {
 
   return (
     <>
-      { story && (
+      { story?.owned && (
       <>
         <div>
           <p>Node type:</p>
