@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
+import { StoriesList } from './StoriesList'
+
 export function UserStories() {
 	const [ stories, setStories ] = useState([])
 
@@ -23,18 +25,7 @@ export function UserStories() {
 	return (
 		<>
 			<h1>Stories Index</h1>
-
-      {stories.map((story, index) => (
-        <div key={index}>
-          <h2>{story.title}</h2>
-          <Link to={`/story/${story.id}/read`}>
-            <button>Read</button>
-          </Link>
-          <Link to={`/story/${story.id}`}>
-            <button>Edit</button>
-          </Link>
-        </div>
-      ))}
+      <StoriesList stories={stories} />
 		</>
 	)
 }
