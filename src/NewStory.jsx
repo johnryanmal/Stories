@@ -25,6 +25,7 @@ export function NewStory() {
 			<h1>New Story</h1>
 			<form onSubmit={handleSubmit}>
 				<div>Title: <input type="text" name="title" /></div>
+				<div>Description: <textarea name="description" /></div>
 				<div>Public: <input type="checkbox" name="public" /></div>
 				<button type="submit">Create Story</button>
 			</form>
