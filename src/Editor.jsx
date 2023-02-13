@@ -137,7 +137,7 @@ export function Editor() {
       case 'option':
         return {
           ...base,
-          handleText: ''
+          handleText: 'Continue'
         }
       case 'route':
       default:
@@ -153,10 +153,10 @@ export function Editor() {
       // replace edges with same start node
       newEdges = newEdges.filter((edge) => edge.source !== newEdge.source)
     }
-    if (['end', 'router'].includes(info.target?.type)) {
-      // replace edges with same end node
-      newEdges = newEdges.filter((edge) => edge.target !== newEdge.target)
-    }
+    // if (['end', 'router'].includes(info.target?.type)) {
+    //   // replace edges with same end node
+    //   newEdges = newEdges.filter((edge) => edge.target !== newEdge.target)
+    // }
 
     setEdges([...newEdges, newEdge]) // update and push new edge
   }
