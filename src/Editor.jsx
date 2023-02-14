@@ -22,7 +22,6 @@ const nodeTypes = {
   },
   start: {
     typeText: "START",
-    title: "",
     shapeId: "#start",
     shape: (
       <symbol viewBox="0 0 50 50" id="start">
@@ -39,7 +38,6 @@ const nodeTypes = {
   },
   end: {
     typeText: "END",
-    title: "",
     shapeId: "#end",
     shape: (
       <symbol viewBox="0 0 50 50" id="end">
@@ -56,7 +54,6 @@ const nodeTypes = {
   },
   router: {
     typeText: "ROUTER",
-    title: "",
     shapeId: "#router",
     shape: (
       <symbol viewBox="0 0 50 50" id="router">
@@ -71,6 +68,22 @@ const nodeTypes = {
       </symbol>
     )
   },
+  random: {
+    typeText: "Random",
+    shapeId: "#random",
+    shape: (
+      <symbol viewBox="0 0 50 50" id="random">
+        <rect
+          transform="rotate(45)"
+          x="27.5"
+          y="-7.5"
+          width="15"
+          height="15"
+          fill="currentColor"
+        />
+      </symbol>
+    )
+  }
 };
 
 const nodeSubtypes = {};
@@ -78,11 +91,15 @@ const nodeSubtypes = {};
 const edgeTypes = {
   option: {
     shapeId: "#option",
-    shape: <span />
+    shape: <span id="option" />
   },
   route: {
-    shapeId: "#option",
-    shape: <span />
+    shapeId: "#route",
+    shape: <span id="route"/>
+  },
+  weight: {
+    shapeId: "#weight",
+    shape: <span id="weight"/>
   }
 };
 
@@ -104,6 +121,7 @@ export function Editor() {
     switch(type) {
       case 'start':
       case 'end':
+      case 'random':
         return base
 
       case 'text':
@@ -127,6 +145,8 @@ export function Editor() {
     switch(source.type) {
       case 'text':
         return 'option'
+      case 'random':
+        return 'weight'
       case 'start':
       case 'end':
       case 'router':
@@ -148,6 +168,11 @@ export function Editor() {
         return {
           ...base,
           handleText: 'Continue'
+        }
+      case 'weight':
+        return {
+          ...base,
+          handleText: '1'
         }
       case 'route':
       default:
@@ -368,6 +393,11 @@ export function Editor() {
                 { selectedEdge?.type === 'option' && (
                   <form onSubmit={onSaveEdge} ref={edgeForm}>
                     <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
+                    <button type="submit">Save Edge</button>
+                  </form>
+                ) || selectedEdge?.type === 'weight' && (
+                  <form onSubmit={onSaveEdge} ref={edgeForm}>
+                    <div>Text: <input type="number" name="handleText" defaultValue={parseInt(selectedEdge.handleText ?? '1')} /></div>
                     <button type="submit">Save Edge</button>
                   </form>
                 )}
