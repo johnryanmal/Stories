@@ -39,7 +39,7 @@ export default function App() {
           <Route path="/story/new" element={<Login />} />
 
           <Route path="/login" element={<Login redirect="/" />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup redirect="/login" />} />
         </>
         )}
         <Route path="/" element={<Stories />} />

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export function Signup() {
+export function Signup(props) {
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (event) => {
@@ -13,7 +13,7 @@ export function Signup() {
       .then((response) => {
         //console.log(response.data);
         event.target.reset();
-        window.location.href = "/"; // Change this to hide a modal, redirect to a specific page, etc.
+        window.location.href = props.redirect ?? window.location.href;
       })
       .catch((error) => {
         //console.log(error.response.data.errors);
