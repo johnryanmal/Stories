@@ -436,7 +436,7 @@ export function Editor() {
                   </form>
                 ) || selectedEdge?.type === 'weight' && (
                   <form onSubmit={onSaveEdge} ref={edgeForm}>
-                    <div>Text: <input type="number" name="handleText" defaultValue={parseInt(selectedEdge.handleText ?? '1')} /></div>
+                    <div>Number: <input type="number" name="handleText" defaultValue={parseInt(selectedEdge.handleText ?? '1')} /></div>
                     <button type="submit">Save Edge</button>
                   </form>
                 )}
