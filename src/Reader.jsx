@@ -20,6 +20,21 @@ export function Reader() {
 			case 'start':
 			case 'router':
 				return edges[0]?.target
+			case 'random':
+			{
+				let weights = edges.map(edge => edge.handleText ? parseInt(edge.handleText) : 0)
+				let total = weights.reduce((a, b) => a + b)
+				let pick = 0
+				let select = Math.floor((Math.random() * total)) + 1
+				for (const [ index, weight ] of weights.entries()) {
+					select -= weight
+					if (select <= 0) {
+						pick = index
+						break
+					}
+				}
+				return edges[pick]?.target
+			}
 		}
 	}
 
