@@ -57,7 +57,7 @@ export function Reader() {
 	}
 	
 	const onOption = (option) => {
-		console.log('option', option)
+		//console.log('option', option)
 		let nextNode = nodeMap[option.target]
 		onNode(walk(nextNode))
 	}
@@ -66,7 +66,7 @@ export function Reader() {
     axios.get(`http://localhost:3000/stories/${params.id}`)
     .then(res => {
       let story = res.data?.story
-      console.log('getStory', story)
+      //console.log('getStory', story)
       if (story) {
         setStory(story)
 
@@ -98,7 +98,7 @@ export function Reader() {
   useEffect(getStory, [])
 
 	const getCurrentNode = () => {
-		console.log('getCurrentNode', nodeMap)
+		//console.log('getCurrentNode', nodeMap)
 		let startNode = Object.values(nodeMap).find((node) => node.type === 'start') 
 		onNode(walk(startNode))
 	}

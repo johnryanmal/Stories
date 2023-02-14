@@ -206,7 +206,7 @@ export function Editor() {
 
   const onCreateNode = (x, y) => {
     let node = createNode(nodeType, x, y)
-    console.log("create node", node)
+    //console.log("create node", node)
     setNodes([...nodes, node])
   };
 
@@ -215,13 +215,13 @@ export function Editor() {
 
     if (canCreateEdge(type, source, target)) {
       let edge = createEdge(type, source, target)
-      console.log("create edge", edge)
+      //console.log("create edge", edge)
       updateEdges(edge, {source, target})
     }
   };
 
   const onSelect = (selected) => {
-    console.log('select', selected)
+    //console.log('select', selected)
 
     const nodeCount = selected.nodes?.size || 0
     const edgeCount = selected.edges?.size || 0
@@ -245,7 +245,7 @@ export function Editor() {
   const canDeleteSelected = (selected) => true
 
   const onDeleteSelected = (selected) => {
-    console.log('delete', selected)
+    //console.log('delete', selected)
     let nodeSet = new Set(selected.nodes?.values())
     let edgeSet = new Set(selected.edges?.values())
     onDeleteNodes(nodeSet)
@@ -266,12 +266,12 @@ export function Editor() {
   }
 
   const onUpdateNode = (newNode) => {
-    console.log("update node", newNode);
+    //console.log("update node", newNode);
     updateNodes(newNode)
   }
 
   const onUpdateEdge = (newEdge) => {
-    console.log("update edge", newEdge);
+    //console.log("update edge", newEdge);
     updateEdges(newEdge)
   }
 
@@ -281,7 +281,7 @@ export function Editor() {
 
   const onSwapEdge = (source, target, edge) => {
     let newEdge = {...edge, target: target.id}
-    console.log("swap edge", newEdge);
+    //console.log("swap edge", newEdge);
     updateEdges(newEdge, {source, target})
   }
 
@@ -307,7 +307,7 @@ export function Editor() {
     axios.get(url)
     .then(res => {
       let story = res.data?.story
-      console.log('getStory', story)
+      //console.log('getStory', story)
       if (story) {
         setStory(story)
         setNodes(story.graph?.nodes ?? [])
@@ -326,10 +326,10 @@ export function Editor() {
     const updateParams = {
       graph
     }
-    console.log('updateParams', updateParams)
+    //console.log('updateParams', updateParams)
     axios.patch(url, updateParams)
     .then(res => {
-      console.log('updateStory', res)
+      //console.log('updateStory', res)
     })
     .catch(err => {
       console.error(err)

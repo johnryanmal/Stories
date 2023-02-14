@@ -10,7 +10,7 @@ export function Stories() {
     axios.get("http://localhost:3000/stories")
     .then(res => {
       let stories = res.data?.stories
-      console.log('stories', stories)
+      //console.log('stories', stories)
       if (stories) {
         setStories(stories)
       }

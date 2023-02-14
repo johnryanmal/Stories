@@ -9,8 +9,8 @@ export function NewStory() {
 		return axios.post("http://localhost:3000/stories", storyParams)
 		.then(res => {
 			const story = res.data?.story
-			console.log(res.data)
-			console.log('new story', story)
+			//console.log(res.data)
+			//console.log('new story', story)
 			if (story) {
 				window.location.href = `/story/${story.id}`
 			}

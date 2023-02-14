@@ -11,7 +11,7 @@ export function UserStories() {
     axios.get("http://localhost:3000/stories/user")
     .then(res => {
       let stories = res.data?.stories
-      console.log('stories', stories)
+      //console.log('stories', stories)
       if (stories) {
         setStories(stories)
       }
