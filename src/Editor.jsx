@@ -255,7 +255,7 @@ export function Editor() {
   const onDeleteNodes = (lookup) => {
     if (lookup) {
       setNodes(nodes.filter(node => !lookup.has(node)))
-      setEdges(edges.filter(edge => !lookup.has(edge.source)))
+      setEdges(edges.filter(edge => !(lookup.has(edge.source) || lookup.has(edge.target))))
     }
   }
 
