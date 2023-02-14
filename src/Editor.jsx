@@ -1,6 +1,6 @@
 import './Editor.css'
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
@@ -39,6 +39,7 @@ const nodeTypes = {
   },
   end: {
     typeText: "END",
+    title: "",
     shapeId: "#end",
     shape: (
       <symbol viewBox="0 0 50 50" id="end">
@@ -55,6 +56,7 @@ const nodeTypes = {
   },
   router: {
     typeText: "ROUTER",
+    title: "",
     shapeId: "#router",
     shape: (
       <symbol viewBox="0 0 50 50" id="router">
@@ -68,7 +70,7 @@ const nodeTypes = {
         />
       </symbol>
     )
-  }
+  },
 };
 
 const nodeSubtypes = {};
@@ -93,6 +95,8 @@ export function Editor() {
   const [ selectedNode, setSelectedNode ] = useState(null)
   const [ selectedEdge, setSelectedEdge ] = useState(null)
   const [ nodeType, setNodeType ] = useState('text')
+  const nodeForm = useRef()
+  const edgeForm = useRef()
 
   const createNode = (type, x, y) => {
     let base = { id: uuid(), type, x, y }
@@ -208,6 +212,8 @@ export function Editor() {
     setSelected(selected)
     setSelectedNode(selectedNode)
     setSelectedEdge(selectedEdge)
+    nodeForm.current?.reset()
+    edgeForm.current?.reset()
   }
   
   const canDeleteSelected = (selected) => true
@@ -348,7 +354,7 @@ export function Editor() {
                 <h2>Node ({selectedNode.type})</h2>
                 {/* <p>{JSON.stringify(selectedNode)} </p> */}
                 { selectedNode?.type === 'text' && (
-                  <form onSubmit={onSaveNode}>
+                  <form onSubmit={onSaveNode} ref={nodeForm}>
                     <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
                     <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
                     <button type="submit">Save Node</button>
@@ -360,7 +366,7 @@ export function Editor() {
                 <h2>Edge ({selectedEdge.type})</h2>
                 {/* <p>{JSON.stringify(selectedEdge)} </p> */}
                 { selectedEdge?.type === 'option' && (
-                  <form onSubmit={onSaveEdge}>
+                  <form onSubmit={onSaveEdge} ref={edgeForm}>
                     <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
                     <button type="submit">Save Edge</button>
                   </form>
