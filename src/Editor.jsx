@@ -121,6 +121,7 @@ export function Editor() {
     switch(type) {
       case 'start':
       case 'end':
+      case 'router':
       case 'random':
         return base
 
