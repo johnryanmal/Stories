@@ -1,6 +1,7 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import React, { useState, useEffect, useRef } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import { Header } from './Header'
@@ -15,10 +16,17 @@ import { NewStory } from './NewStory.jsx'
 
 export default function App() {
   const login = localStorage.getItem("jwt") !== null
+  const header = useRef(null)
+  const [ top, setTop ] = useState('')
+
+  useEffect(() => {
+    const height = header.current?.clientHeight ?? 0
+    setTop(`${height}px`)
+  }, [])
 
   return (
-    <div className="App">
-      <Header />
+    <div className="App" style={{marginTop: top, height: `calc(100vh - ${top}`}}>
+      <Header _ref={header}/>
       <Routes>
         { login && (
         <>

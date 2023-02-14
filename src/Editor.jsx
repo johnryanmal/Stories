@@ -1,8 +1,14 @@
+import './Editor.css'
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 import { GraphView } from "react-digraph";
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const nodeTypes = {
   text: {
@@ -316,77 +322,83 @@ export function Editor() {
   return (
     <>
       { story?.owned && (
-      <>
-        <div>
-          <p>Node type:</p>
-          {Object.keys(nodeTypes).map((type, index) => (
-            <div key={index}>
-              <input
-                type="radio"
-                value={type}
-                checked={type === nodeType}
-                onChange={onNodeType}
-              /> {type}
+      <Container fluid className=" d-flex flex-column" id="editor">
+        <Row id="inner-editor">
+          <Col xs={4} id="left-editor">
+            <div>
+              <p>Node type:</p>
+              {Object.keys(nodeTypes).map((type, index) => (
+                <div key={index}>
+                  <input
+                    type="radio"
+                    value={type}
+                    checked={type === nodeType}
+                    onChange={onNodeType}
+                  /> {type}
+                </div>
+              ))}
+              <div>
+                <p>Shift+click creates a new node</p>
+                <p>Shift+click a node and drag to another node creates an edge</p>
+                <p>Click a node and pressing delete deletes the node and its edges</p>
+                <p>Node text and type can be changed after selecting a node by clicking it</p>
+              </div>
+              { selectedNode && (
+              <>
+                <h2>Node ({selectedNode.type})</h2>
+                {/* <p>{JSON.stringify(selectedNode)} </p> */}
+                { selectedNode?.type === 'text' && (
+                  <form onSubmit={onSaveNode}>
+                    <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
+                    <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
+                    <button type="submit">Save Node</button>
+                  </form>
+                )}
+              </>
+              ) || selectedEdge && (
+              <>
+                <h2>Edge ({selectedEdge.type})</h2>
+                {/* <p>{JSON.stringify(selectedEdge)} </p> */}
+                { selectedEdge?.type === 'option' && (
+                  <form onSubmit={onSaveEdge}>
+                    <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
+                    <button type="submit">Save Edge</button>
+                  </form>
+                )}
+              </>
+              ) || (
+                <p>Nothing selected.</p>
+              )}
+              <hr />
+              <button onClick={updateStory}>Save Story</button>
+              <button onClick={deleteStory}>Delete Story</button>
             </div>
-          ))}
-        </div>
-        <div>
-          <p>Shift+click creates a new node</p>
-          <p>Shift+click a node and drag to another node creates an edge</p>
-          <p>Click a node and pressing delete deletes the node and its edges</p>
-          <p>Node text and type can be changed after selecting a node by clicking it</p>
-        </div>
-        <div id="graph">
-          <GraphView
-            nodeKey="id"
-            edgeKey="id"
-            nodes={nodes}
-            edges={edges}
-            selected={selected}
-            nodeTypes={nodeTypes}
-            nodeSubtypes={nodeSubtypes}
-            edgeTypes={edgeTypes}
+          </Col>
+          <Col xs={8} id="right-editor">
+            <div id="graph">
+              <GraphView
+                nodeKey="id"
+                edgeKey="id"
+                nodes={nodes}
+                edges={edges}
+                selected={selected}
+                nodeTypes={nodeTypes}
+                nodeSubtypes={nodeSubtypes}
+                edgeTypes={edgeTypes}
 
-            onCreateNode={onCreateNode}
-            onCreateEdge={onCreateEdge}
-            onSelect={onSelect}
-            canDeleteSelected={canDeleteSelected}
-            onDeleteSelected={onDeleteSelected}
-            onUpdateNode={onUpdateNode}
-            canSwapEdge={canSwapEdge}
-            onSwapEdge={onSwapEdge}
-          />
-        </div>
-        { selectedNode && (
-        <>
-          <h2>Node ({selectedNode.type})</h2>
-          {/* <p>{JSON.stringify(selectedNode)} </p> */}
-          { selectedNode?.type === 'text' && (
-            <form onSubmit={onSaveNode}>
-              <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
-              <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
-              <button type="submit">Save Node</button>
-            </form>
-          )}
-        </>
-        ) || selectedEdge && (
-        <>
-          <h2>Edge ({selectedEdge.type})</h2>
-          {/* <p>{JSON.stringify(selectedEdge)} </p> */}
-          { selectedEdge?.type === 'option' && (
-            <form onSubmit={onSaveEdge}>
-              <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
-              <button type="submit">Save Edge</button>
-            </form>
-          )}
-        </>
-        ) || (
-          <p>Nothing selected.</p>
-        )}
-        <hr />
-        <button onClick={updateStory}>Save Story</button>
-        <button onClick={deleteStory}>Delete Story</button>
-      </>
+                onCreateNode={onCreateNode}
+                onCreateEdge={onCreateEdge}
+                onSelect={onSelect}
+                canDeleteSelected={canDeleteSelected}
+                onDeleteSelected={onDeleteSelected}
+                onUpdateNode={onUpdateNode}
+                canSwapEdge={canSwapEdge}
+                onSwapEdge={onSwapEdge}
+              />
+            </div>
+          </Col>
+        </Row>
+      </Container>
       ) || (
       <>
         <p>Story not found.</p>

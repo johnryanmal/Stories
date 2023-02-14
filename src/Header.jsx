@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import axios from "axios";
 
-export function Header() {
+export function Header(props) {
 	const login = localStorage.getItem("jwt") !== null
 
 	const handleLogout = (event) => {
@@ -16,7 +16,7 @@ export function Header() {
 
 
   return (
-		<Navbar bg="light" variant="light" fixed="top">
+		<Navbar bg="light" variant="light" fixed="top" ref={props._ref}>
 			<Container>
 				<Navbar.Brand href="/stories">Stories</Navbar.Brand>
 				<Nav activeKey={location.pathname} className="me-auto">

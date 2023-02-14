@@ -1,0 +1,30 @@
+#editor {
+	width: 100%;
+	height: 100%;
+	left: 0;
+	padding: 0;
+	margin: 0;
+}
+
+#inner-editor {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+#left-editor {
+	left: 0;
+	padding: 0;
+}
+
+#right-editor {
+	right: 0;
+	padding: 0;
+}
+
+#graph {
+	right: 0;
+	width: 100%;
+	height: 100%;
+}
