@@ -255,6 +255,7 @@ export function Editor() {
   const onDeleteNodes = (lookup) => {
     if (lookup) {
       setNodes(nodes.filter(node => !lookup.has(node)))
+      setEdges(edges.filter(edge => !lookup.has(edge.source)))
     }
   }
 
@@ -351,6 +352,43 @@ export function Editor() {
     setNodeType(event.target.value)
   }
 
+  const downloadJSON = (name, data) => {
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const href = URL.createObjectURL(blob);
+  
+    // create "a" HTLM element with href to file
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = name + ".json";
+    document.body.appendChild(link);
+    link.click();
+  
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
+  }
+
+  const uploadFileJSON = (event) => {
+    const fileReader = new FileReader()
+    fileReader.readAsText(event.target.files[0], "UTF-8")
+    fileReader.onload = (event) => {
+      setJSON(event.target.result)
+    }
+  }
+
+  const setJSON = (data) => {
+    const graph = JSON.parse(data)
+    const { nodes, edges } = graph
+    setNodes(nodes)
+    setEdges(edges)
+  }
+
+  const onDownload = () => {
+    const graph = { nodes, edges }
+    downloadJSON('story', graph)
+  }
+
   return (
     <>
       { story?.owned && (
@@ -409,6 +447,11 @@ export function Editor() {
               <hr />
               <button onClick={updateStory}>Save Story</button>
               <button onClick={deleteStory}>Delete Story</button>
+              <hr />
+              <button onClick={onDownload}>Export Story</button>
+              <hr />
+              <p>Import Story</p>
+              <input type="file" onChange={uploadFileJSON} />
             </div>
           </Col>
           <Col xs={8} id="right-editor">
