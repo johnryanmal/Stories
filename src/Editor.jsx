@@ -373,11 +373,12 @@ export function Editor() {
     const fileReader = new FileReader()
     fileReader.readAsText(event.target.files[0], "UTF-8")
     fileReader.onload = (event) => {
-      setJSON(event.target.result)
+      onJSON(event.target.result)
     }
+    event.target.value = null
   }
 
-  const setJSON = (data) => {
+  const onJSON = (data) => {
     const graph = JSON.parse(data)
     const { nodes, edges } = graph
     setNodes(nodes)
