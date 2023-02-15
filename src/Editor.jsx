@@ -246,23 +246,20 @@ export function Editor() {
 
   const onDeleteSelected = (selected) => {
     //console.log('delete', selected)
-    let nodeSet = new Set(selected.nodes?.values())
-    let edgeSet = new Set(selected.edges?.values())
-    onDeleteNodes(nodeSet)
-    onDeleteEdges(edgeSet)
-  }
-
-  const onDeleteNodes = (lookup) => {
-    if (lookup) {
-      setNodes(nodes.filter(node => !lookup.has(node)))
-      setEdges(edges.filter(edge => !(lookup.has(edge.source) || lookup.has(edge.target))))
-    }
-  }
-
-  const onDeleteEdges = (lookup) => {
-    if (lookup) {
-      setEdges(edges.filter(edge => !lookup.has(edge)))
-    }
+    const nodeMap = selected.nodes ?? new Map()
+    const edgeMap = selected.edges ?? new Map()
+    const nodeSet = new Set(nodeMap.values())
+    const edgeSet = new Set(edgeMap.values())
+    const newNodes = nodes.filter(node =>
+      !nodeSet.has(node) // direct deletion
+    )
+    const newEdges = edges.filter(edge =>
+      !edgeSet.has(edge) // direct deletion
+      && !nodeMap.has(edge.source) // indirect deletion: edge source node was deleted
+      && !nodeMap.has(edge.target) // indirect deletion: edge target node was deleted
+    )
+    setNodes(newNodes)
+    setEdges(newEdges)
   }
 
   const onUpdateNode = (newNode) => {
