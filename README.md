@@ -20,11 +20,6 @@ cd stories/
 npm install
 ```
 
-4. [Frontend] Start the development server
-```
-npm run dev
-```
-
 ## Usage
 
 1. Start the servers
