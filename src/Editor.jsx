@@ -128,19 +128,27 @@ export function Editor() {
     let base = { id: uuid(), type, x, y }
 
     switch(type) {
-      case 'start':
-      case 'end':
-      case 'router':
-      case 'random':
-        return base
-
       case 'text':
-      default:
         return {
           ...base,
           title: 'Untitled',
           text: ''
         }
+
+      case 'action':
+        return {
+          ...base,
+          title: '',
+          variable: '',
+          assignment: ''
+        }
+
+      case 'start':
+      case 'end':
+      case 'router':
+      case 'random':
+      default:
+        return base
     }
   }
 
@@ -420,10 +428,17 @@ export function Editor() {
               <>
                 <h2>Node ({selectedNode.type})</h2>
                 {/* <p>{JSON.stringify(selectedNode)} </p> */}
-                { selectedNode?.type === 'text' && (
+                { selectedNode.type === 'text' && (
                   <form onSubmit={onSaveNode} ref={nodeForm}>
                     <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
                     <div>Text: <textarea name="text" defaultValue={selectedNode.text ?? ''} /></div>
+                    <button type="submit">Save Node</button>
+                  </form>
+                ) || selectedNode.type === 'action' && (
+                  <form onSubmit={onSaveNode} ref={nodeForm}>
+                    <div>Title: <input type="text" name="title" defaultValue={selectedNode.title ?? ''} /></div>
+                    <div>Variable: <input type="text" name="variable" defaultValue={selectedNode.variable ?? ''} /></div>
+                    <div>Assignment: <textarea name="assignment" defaultValue={selectedNode.assignment ?? ''} /></div>
                     <button type="submit">Save Node</button>
                   </form>
                 )}
@@ -432,12 +447,12 @@ export function Editor() {
               <>
                 <h2>Edge ({selectedEdge.type})</h2>
                 {/* <p>{JSON.stringify(selectedEdge)} </p> */}
-                { selectedEdge?.type === 'option' && (
+                { selectedEdge.type === 'option' && (
                   <form onSubmit={onSaveEdge} ref={edgeForm}>
                     <div>Text: <input type="text" name="handleText" defaultValue={selectedEdge.handleText ?? ''} /></div>
                     <button type="submit">Save Edge</button>
                   </form>
-                ) || selectedEdge?.type === 'weight' && (
+                ) || selectedEdge.type === 'weight' && (
                   <form onSubmit={onSaveEdge} ref={edgeForm}>
                     <div>Number: <input type="number" name="handleText" defaultValue={parseInt(selectedEdge.handleText ?? '1')} /></div>
                     <button type="submit">Save Edge</button>
