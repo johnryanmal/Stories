@@ -83,6 +83,15 @@ const nodeTypes = {
         />
       </symbol>
     )
+  },
+  action: {
+    typeText: "Action",
+    shapeId: "#action",
+    shape: (
+      <symbol viewBox="0 0 154 54" width="154" height="54" id="action">
+        <rect x="0" y="0" rx="2" ry="2" width="154" height="54" />
+      </symbol>
+    )
   }
 };
 
@@ -185,14 +194,10 @@ export function Editor() {
     //remove duplicate ids
     let newEdges = edges.filter(edge => edge.id !== newEdge.id)
 
-    if (['start', 'router'].includes(info.source?.type)) {
+    if (newEdge.type === 'route') {
       // replace edges with same start node
       newEdges = newEdges.filter((edge) => edge.source !== newEdge.source)
     }
-    // if (['end', 'router'].includes(info.target?.type)) {
-    //   // replace edges with same end node
-    //   newEdges = newEdges.filter((edge) => edge.target !== newEdge.target)
-    // }
 
     setEdges([...newEdges, newEdge]) // update and push new edge
   }
@@ -241,7 +246,7 @@ export function Editor() {
     nodeForm.current?.reset()
     edgeForm.current?.reset()
   }
-  
+
   const canDeleteSelected = (selected) => true
 
   const onDeleteSelected = (selected) => {
@@ -353,14 +358,14 @@ export function Editor() {
     const json = JSON.stringify(data, null, 2);
     const blob = new Blob([json], { type: "application/json" });
     const href = URL.createObjectURL(blob);
-  
+
     // create "a" HTLM element with href to file
     const link = document.createElement("a");
     link.href = href;
     link.download = name + ".json";
     document.body.appendChild(link);
     link.click();
-  
+
     // clean up "a" element & remove ObjectURL
     document.body.removeChild(link);
     URL.revokeObjectURL(href);
