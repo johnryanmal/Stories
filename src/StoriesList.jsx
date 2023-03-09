@@ -5,8 +5,8 @@ export function StoriesList(props) {
 
 	return (
 		<>
-			{stories.map((story, index) => (
-				<StoryItem story={story} key={index} />
+			{stories.map((story) => (
+				<StoryItem story={story} key={story.id} />
 			))}
 		</>
 	)
