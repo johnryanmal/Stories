@@ -5,9 +5,11 @@ export function StoriesList(props) {
 
 	return (
 		<>
-			{stories.map((story) => (
+			{ stories.length > 0 && stories.map((story) => (
 				<StoryItem story={story} key={story.id} />
-			))}
+			)) || (
+				<p>No stories found.</p>
+			)}
 		</>
 	)
 }
