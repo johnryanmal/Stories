@@ -16,7 +16,7 @@ export function StoryItem(props) {
 			<h2>{story.title}</h2>
 			{ story.description && (
 				<p>
-					{truncate(story.description)}
+					{truncate(story.description, 200)}
 				</p>
 			)}
 			<Link to={`/story/${story.id}`}>
