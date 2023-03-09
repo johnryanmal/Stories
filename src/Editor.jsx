@@ -123,6 +123,7 @@ export function Editor() {
   const [ nodeType, setNodeType ] = useState('text')
   const nodeForm = useRef()
   const edgeForm = useRef()
+  const fileSelect = useRef()
 
   const createNode = (type, x, y) => {
     let base = { id: uuid(), type, x, y }
@@ -397,7 +398,7 @@ export function Editor() {
 
   const onDownload = () => {
     const graph = { nodes, edges }
-    downloadJSON('story', graph)
+    downloadJSON(story.title, graph)
   }
 
   return (
@@ -467,9 +468,8 @@ export function Editor() {
               <button onClick={deleteStory}>Delete Story</button>
               <hr />
               <button onClick={onDownload}>Export Story</button>
-              <hr />
-              <p>Import Story</p>
-              <input type="file" onChange={uploadFileJSON} />
+              <button onClick={() => fileSelect.current?.click()}>Import Story</button>
+              <input style={{display: "none"}} type="file" onChange={uploadFileJSON} ref={fileSelect} />
             </div>
           </Col>
           <Col xs={8} id="right-editor">
