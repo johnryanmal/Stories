@@ -14,6 +14,7 @@ export function StoryItem(props) {
 	return (
 		<div>
 			<h2>{story.title}</h2>
+			<address>by {story.author}</address>
 			{ story.description && (
 				<p>
 					{truncate(story.description, 200)}
