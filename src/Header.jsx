@@ -22,6 +22,7 @@ export function Header(props) {
 				<Nav activeKey={location.pathname} className="me-auto">
 					<Nav.Link href="/stories">All Stories</Nav.Link>
 					<Nav.Link href="/stories/user">My Stories</Nav.Link>
+					<Nav.Link href="/story/new">New Story</Nav.Link>
 				</Nav>
 				<Nav activeKey={location.pathname}>
 					{ login && (

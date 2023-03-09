@@ -23,7 +23,7 @@ export function Stories() {
 
 	return (
 		<>
-			<h1>Stories Index</h1>
+			<h1>All Stories</h1>
       <StoriesList stories={stories} />
 		</>
 	)

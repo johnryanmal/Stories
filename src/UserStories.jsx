@@ -24,10 +24,7 @@ export function UserStories() {
 
 	return (
 		<>
-			<h1>Stories Index</h1>
-      <Link to="/story/new">
-        <button>New Story</button>
-      </Link>
+			<h1>My Stories</h1>
       <StoriesList stories={stories} />
 		</>
 	)
