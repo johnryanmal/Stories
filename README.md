@@ -3,6 +3,8 @@ Frontend / [Backend](https://github.com/johnryanmal/stories-api#stories)
 
 Stories is an app that lets users create interactive stories, represented as a directed graph. Made using [react-digraph](https://github.com/uber/react-digraph).
 
+View it in action [here](johnryanmal.github.io/stories/)!
+
 ## Installation
 
 1. Clone the repository
