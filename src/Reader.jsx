@@ -1,13 +1,14 @@
 import config from './config'
 
 import { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios'
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 export function Reader() {
+	const navigate = useNavigate()
 	const params = useParams()
   const [ story, setStory ] = useState(null)
 	const [ nodeMap, setNodeMap ] = useState({}) // node.id -> node
@@ -37,6 +38,8 @@ export function Reader() {
 				}
 				return edges[pick]?.target
 			}
+			case 'end':
+				return navigate(`/${story.id}/view`)
 		}
 	}
 
