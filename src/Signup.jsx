@@ -1,3 +1,4 @@
+import config from './config'
 import axios from "axios";
 import { useState } from "react";
 
@@ -9,7 +10,7 @@ export function Signup(props) {
     setErrors([]);
     const params = new FormData(event.target);
     axios
-      .post("http://localhost:3000/users.json", params)
+      .post("${config.host}/users.json", params)
       .then((response) => {
         //console.log(response.data);
         event.target.reset();
