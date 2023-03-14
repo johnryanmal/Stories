@@ -6,18 +6,25 @@ Stories is an app that lets users create interactive stories, represented as a d
 ## Installation
 
 1. Clone the repository
-```
+```shell
 git clone https://github.com/johnryanmal/stories/
 ```
 
 2. Enter the repository (Frontend)
-```
+```shell
 cd stories/
 ```
 
 3. [Frontend] Install dependencies
-```
+```shell
 npm install
+```
+
+4. Edit the api url `src/config.js` to work with the local backend
+```js
+export default {
+	api: "http://localhost:3000"
+}
 ```
 
 ## Usage
@@ -25,12 +32,12 @@ npm install
 1. Start the servers
 
 [Backend] Start rails
-```
+```shell
 rails server
 ```
 
 [Frontend] Start vite
-```
+```shell
 npm run dev
 ```
 
