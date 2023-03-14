@@ -15,7 +15,7 @@ export function NewStory() {
 			//console.log(res.data)
 			//console.log('new story', story)
 			if (story) {
-				navigate(`/story/${story.id}`)
+				navigate(`/${story.id}/view`)
 			}
 		})
 		.catch(err => {
