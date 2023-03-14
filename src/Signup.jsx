@@ -10,7 +10,7 @@ export function Signup(props) {
     setErrors([]);
     const params = new FormData(event.target);
     axios
-      .post("${config.host}/users.json", params)
+      .post("${config.api}/users.json", params)
       .then((response) => {
         //console.log(response.data);
         event.target.reset();

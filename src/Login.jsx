@@ -15,7 +15,7 @@ export function Login(props) {
     setErrors([]);
     const params = new FormData(event.target);
     axios
-      .post(`${config.host}/sessions.json`, params)
+      .post(`${config.api}/sessions.json`, params)
       .then((response) => {
         //console.log(response.data);
         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;

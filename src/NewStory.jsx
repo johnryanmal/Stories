@@ -7,7 +7,7 @@ export function NewStory() {
 		event.preventDefault()
 		const formData = new FormData(event.target)
 		const storyParams = Object.fromEntries(formData.entries())
-		return axios.post(`${config.host}/stories`, storyParams)
+		return axios.post(`${config.api}/stories`, storyParams)
 		.then(res => {
 			const story = res.data?.story
 			//console.log(res.data)

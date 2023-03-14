@@ -10,7 +10,7 @@ export function UserStories() {
 	const [ stories, setStories ] = useState([])
 
   const getStories = () => {
-    axios.get(`${config.host}/stories/user`)
+    axios.get(`${config.api}/stories/user`)
     .then(res => {
       let stories = res.data?.stories
       //console.log('stories', stories)

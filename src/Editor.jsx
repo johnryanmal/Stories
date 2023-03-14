@@ -313,7 +313,7 @@ export function Editor() {
     onUpdateEdge(newEdge)
   }
 
-  const url = `${config.host}/stories/${params.id}`
+  const url = `${config.api}/stories/${params.id}`
 
   const getStory = () => {
     axios.get(url)

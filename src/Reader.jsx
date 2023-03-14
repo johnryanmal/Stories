@@ -65,7 +65,7 @@ export function Reader() {
 	}
 
   const getStory = () => {
-    axios.get(`${config.host}/stories/${params.id}`)
+    axios.get(`${config.api}/stories/${params.id}`)
     .then(res => {
       let story = res.data?.story
       //console.log('getStory', story)
