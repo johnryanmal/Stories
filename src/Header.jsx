@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom'
 
 import axios from "axios";
 
@@ -18,11 +19,11 @@ export function Header(props) {
   return (
 		<Navbar bg="light" variant="light" fixed="top" ref={props._ref}>
 			<Container>
-				<Navbar.Brand href="/stories">Stories</Navbar.Brand>
+				<Navbar.Brand as={Link} to="/">Stories</Navbar.Brand>
 				<Nav activeKey={location.pathname} className="me-auto">
-					<Nav.Link href="/stories">All Stories</Nav.Link>
-					<Nav.Link href="/stories/user">My Stories</Nav.Link>
-					<Nav.Link href="/story/new">New Story</Nav.Link>
+					<Nav.Link as={Link} to="/">All Stories</Nav.Link>
+					<Nav.Link as={Link} to="/user">My Stories</Nav.Link>
+					<Nav.Link as={Link} to="/new">New Story</Nav.Link>
 				</Nav>
 				<Nav activeKey={location.pathname}>
 					{ login && (
@@ -31,8 +32,8 @@ export function Header(props) {
 					</>
 					) || (
 					<>
-						<Nav.Link href="/login">Login</Nav.Link>
-						<Nav.Link href="/signup">Signup</Nav.Link>
+						<Nav.Link as={Link} to="/login">Login</Nav.Link>
+						<Nav.Link as={Link} to="/signup">Signup</Nav.Link>
 					</>
 					)}
 				</Nav>

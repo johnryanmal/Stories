@@ -1,7 +1,6 @@
 import config from './config'
 
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 import { StoriesList } from './StoriesList'

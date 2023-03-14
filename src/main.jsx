@@ -6,7 +6,7 @@ import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/stories">
       <App />
     </BrowserRouter>
   </React.StrictMode>,

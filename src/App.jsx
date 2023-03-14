@@ -30,23 +30,22 @@ export default function App() {
       <Routes>
         { login && (
         <>
-          <Route path="/stories/user" element={<UserStories />} />
-          <Route path="/story/new" element={<NewStory />} />
+          <Route path="/user" element={<UserStories />} />
+          <Route path="/new" element={<NewStory />} />
         </>
         ) || (
         <>
-          <Route path="/stories/user" element={<Login />} />
-          <Route path="/story/new" element={<Login />} />
+          <Route path="/user" element={<Login />} />
+          <Route path="/new" element={<Login />} />
 
           <Route path="/login" element={<Login redirect="/" />} />
           <Route path="/signup" element={<Signup redirect="/login" />} />
         </>
         )}
         <Route path="/" element={<Stories />} />
-        <Route path="/stories" element={<Stories />} />
-        <Route path="/story/:id" element={<Story />} />
-        <Route path="/story/:id/edit" element={<Editor />} />
-        <Route path="/story/:id/read" element={<Reader />} />
+        <Route path="/:id" element={<Story />} />
+        <Route path="/:id/edit" element={<Editor />} />
+        <Route path="/:id/read" element={<Reader />} />
       </Routes>
     </div>
   )

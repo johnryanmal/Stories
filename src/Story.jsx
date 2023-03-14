@@ -31,11 +31,11 @@ export function Story() {
 				<h1>{story.title}</h1>
 				<p>{story.description}</p>
 
-				<Link to={`/story/${story.id}/read`}>
+				<Link to={`/${story.id}/read`}>
 					<button>Read</button>
 				</Link>
 				{ story.owned && (
-					<Link to={`/story/${story.id}/edit`}>
+					<Link to={`/${story.id}/edit`}>
 						<button>Edit</button>
 					</Link>
 				)}
