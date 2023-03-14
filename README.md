@@ -22,7 +22,7 @@ cd stories/
 npm install
 ```
 
-4. Edit the api url `src/config.js` to work with the local backend
+4. Edit the api url in `src/config.js` to work with the local backend
 ```js
 export default {
 	api: "http://localhost:3000"
