@@ -1,18 +1,19 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import axios from "axios";
 
 export function Header(props) {
+	const navigate = useNavigate();
 	const login = localStorage.getItem("jwt") !== null
 
 	const handleLogout = (event) => {
     event.preventDefault();
     delete axios.defaults.headers.common["Authorization"];
     localStorage.removeItem("jwt");
-    window.location.href = "/";
+		navigate('/')
   };
 
 

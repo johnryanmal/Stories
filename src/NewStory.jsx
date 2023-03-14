@@ -1,7 +1,9 @@
 import config from './config'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export function NewStory() {
+	const navigate = useNavigate()
 
 	const handleSubmit = async (event) => {
 		event.preventDefault()
@@ -13,7 +15,7 @@ export function NewStory() {
 			//console.log(res.data)
 			//console.log('new story', story)
 			if (story) {
-				window.location.href = `/story/${story.id}`
+				navigate(`/story/${story.id}`)
 			}
 		})
 		.catch(err => {

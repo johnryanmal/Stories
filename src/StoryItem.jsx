@@ -20,7 +20,7 @@ export function StoryItem(props) {
 					{truncate(story.description, 200)}
 				</p>
 			)}
-			<Link to={`/${story.id}`}>
+			<Link to={`/${story.id}/view`}>
 				{ story.owned && (
 					<button>Open</button>
 				) || (

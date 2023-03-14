@@ -2,7 +2,7 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React, { useState, useEffect, useRef } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 import { Header } from './Header'
 import { Signup } from './Signup.jsx'
@@ -42,8 +42,9 @@ export default function App() {
           <Route path="/signup" element={<Signup redirect="/login" />} />
         </>
         )}
+        <Route path='*' element={<Navigate to='/' />} />
         <Route path="/" element={<Stories />} />
-        <Route path="/:id" element={<Story />} />
+        <Route path="/:id/view" element={<Story />} />
         <Route path="/:id/edit" element={<Editor />} />
         <Route path="/:id/read" element={<Reader />} />
       </Routes>

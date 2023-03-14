@@ -2,7 +2,7 @@ import config from './config'
 import './Editor.css'
 
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 import { GraphView } from "react-digraph";
@@ -115,6 +115,7 @@ const edgeTypes = {
 
 export function Editor() {
   const params = useParams()
+  const navigate = useNavigate()
   const [ story, setStory ] = useState(null)
   const [ nodes, setNodes ] = useState([])
   const [ edges, setEdges ] = useState([])
@@ -352,7 +353,7 @@ export function Editor() {
     if (confirm(`Are you sure you want to delete "${story.title}"?`)) {
       axios.delete(url)
       .then(res => {
-        window.location.href = '/stories/user'
+        navigate('/user')
       })
       .catch(err => {
         console.error(err)

@@ -1,6 +1,7 @@
-import config from './config'
+import config from './config';
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const jwt = localStorage.getItem("jwt");
 if (jwt) {
@@ -8,6 +9,7 @@ if (jwt) {
 }
 
 export function Login(props) {
+  const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (event) => {
@@ -21,7 +23,7 @@ export function Login(props) {
         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;
         localStorage.setItem("jwt", response.data.jwt);
         event.target.reset();
-        window.location.href = props.redirect ?? window.location.href;
+        navigate(props.redirect ?? window.location.href);
       })
       .catch((error) => {
         //console.log(error.response);

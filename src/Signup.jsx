@@ -1,8 +1,10 @@
-import config from './config'
-import axios from "axios";
-import { useState } from "react";
+import config from './config';
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function Signup(props) {
+  const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (event) => {
@@ -14,7 +16,7 @@ export function Signup(props) {
       .then((response) => {
         //console.log(response.data);
         event.target.reset();
-        window.location.href = props.redirect ?? window.location.href;
+        navigate(props.redirect ?? window.location.href);
       })
       .catch((error) => {
         //console.log(error.response.data.errors);
