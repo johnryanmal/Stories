@@ -1,3 +1,5 @@
+import config from './config'
+
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
@@ -7,7 +9,7 @@ export function Stories() {
 	const [ stories, setStories ] = useState([])
 
   const getStories = () => {
-    axios.get("http://localhost:3000/stories")
+    axios.get(`${config.host}/stories`)
     .then(res => {
       let stories = res.data?.stories
       //console.log('stories', stories)

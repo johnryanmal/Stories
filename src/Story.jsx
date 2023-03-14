@@ -1,3 +1,5 @@
+import config from './config'
+
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
@@ -7,7 +9,7 @@ export function Story() {
 	const [ story, setStory ] = useState(null)
 
 	const getStory = () => {
-    axios.get(`http://localhost:3000/stories/${params.id}`)
+    axios.get(`${config.host}/stories/${params.id}`)
     .then(res => {
       let story = res.data?.story
       //console.log('getStory', story)

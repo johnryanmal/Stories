@@ -1,3 +1,5 @@
+import config from './config'
+
 import { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 import axios from 'axios'
@@ -63,7 +65,7 @@ export function Reader() {
 	}
 
   const getStory = () => {
-    axios.get(`http://localhost:3000/stories/${params.id}`)
+    axios.get(`${config.host}/stories/${params.id}`)
     .then(res => {
       let story = res.data?.story
       //console.log('getStory', story)

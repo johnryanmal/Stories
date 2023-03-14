@@ -1,3 +1,4 @@
+import config from './config'
 import './Editor.css'
 
 import React, { useState, useEffect, useRef } from "react";
@@ -312,7 +313,7 @@ export function Editor() {
     onUpdateEdge(newEdge)
   }
 
-  const url = `http://localhost:3000/stories/${params.id}`
+  const url = `${config.host}/stories/${params.id}`
 
   const getStory = () => {
     axios.get(url)
