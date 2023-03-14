@@ -1,3 +1,3 @@
 export default {
-	api: "http://localhost:3000"
+	api: "https://stories-api.johnryanmal.repl.co"
 }
