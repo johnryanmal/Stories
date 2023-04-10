@@ -13,7 +13,8 @@ export function Header(props) {
     event.preventDefault();
     delete axios.defaults.headers.common["Authorization"];
     localStorage.removeItem("jwt");
-		navigate('/')
+		navigate('/');
+		navigate(0); //refresh
   };
 
 

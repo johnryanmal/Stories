@@ -24,6 +24,7 @@ export function Login(props) {
         localStorage.setItem("jwt", response.data.jwt);
         event.target.reset();
         navigate(props.redirect ?? window.location.href);
+        navigate(0); //refresh
       })
       .catch((error) => {
         //console.log(error.response);
